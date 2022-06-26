@@ -18,7 +18,7 @@ class UserController extends Controller
                 $dbUser = $this->model->selUser($param);
 
                 if (!$dbUser || !password_verify($_POST['pw'], $dbUser->pw)) {
-                    return "redirect:signin?email={$email}&err";
+                    return "redirect:/user/signin?email={$email}&err";
                 } else {
                     $_SESSION[_LOGINUSER] = $dbUser;
                     return "redirect:/feed/index";
@@ -39,7 +39,7 @@ class UserController extends Controller
                     "nm" => $_POST['nm']
                 ];
                 $this->model->insUser($param);
-                return "redirect:signin";
+                return "redirect:/user/signin";
         }
     }
 }
