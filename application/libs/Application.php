@@ -16,7 +16,7 @@ class Application
     public function __construct()
     {
         $urlPaths = getUrlPaths();
-        $controller = isset($urlPaths[0]) && $urlPaths[0] != '' ? $urlPaths[0] : 'board';
+        $controller = isset($urlPaths[0]) && $urlPaths[0] != '' ? $urlPaths[0] : 'feed';
         $action = isset($urlPaths[1]) && $urlPaths[1] != '' ? $urlPaths[1] : 'index';
 
         if (!file_exists('application/controllers/' . $controller . 'Controller.php')) {
@@ -27,6 +27,7 @@ class Application
         if (!in_array($controller, static::$modelList)) {
             $modelName = 'application\models\\' . $controller . 'model';
             static::$modelList[$controller] = new $modelName();
+            //질문: 이 어레이가 사용되는때는?
         }
 
         $controllerName = 'application\controllers\\' . $controller . 'controller';

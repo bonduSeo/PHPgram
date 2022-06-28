@@ -26,8 +26,6 @@ class FeedController extends Controller
                 // print "ctnt : " . $_POST["ctnt"] . "<br>";
                 // print "location : " . $_POST["location"] . "<br>";
 
-                //instFeed 메소드 호출하고 리턴값 받은다음
-
                 if (!is_array($_FILES) || !isset($_FILES['imgs'])) {
                     return ["result" => 0];
                 }
@@ -38,7 +36,6 @@ class FeedController extends Controller
                     "iuser" => $iuser
                 ];
                 $ifeed = $this->model->insFeed($param);
-
 
 
                 foreach ($_FILES["imgs"]["name"] as $key => $value) {

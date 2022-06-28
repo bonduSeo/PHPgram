@@ -25,16 +25,16 @@
                         <button type="button" class="btn btn-primary">공유하기</button>
                     </div>
                 `;
-        const imgElem = body.querySelector("#id-img");
+
         closeBtn.addEventListener("click", () => {
           frmElem.reset();
         });
 
-        const newFeedModal = body.querySelector("#newFeedModal");
-        newFeedModal.addEventListener("click", () => {
+        modal.addEventListener("click", () => {
           frmElem.reset();
         });
 
+        const imgElem = body.querySelector("#id-img");
         const imgSource = e.target.files[0];
         const reader = new FileReader();
         reader.readAsDataURL(imgSource);
@@ -47,9 +47,11 @@
           const files = frmElem.imgs.files;
 
           const fData = new FormData();
+
           for (let i = 0; i < files.length; i++) {
             fData.append("imgs[]", files[i]);
           }
+
           fData.append("ctnt", body.querySelector("textarea").value);
           fData.append("location", body.querySelector("input[type=text]").value);
 
