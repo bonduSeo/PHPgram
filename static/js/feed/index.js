@@ -4,9 +4,11 @@
     const modal = document.querySelector("#newFeedModal");
     const body = modal.querySelector("#id-modal-body");
     const frmElem = modal.querySelector("form");
+    const closeBtn = modal.querySelector(".btn-close");
 
     //이미지 값이 변하면
     frmElem.imgs.addEventListener("change", function (e) {
+      console.log(e.target.files);
       //form 태그는 . 으로 -아이디나 이름으로도 (자식한테)접근할수있음
       if (e.target.files.length > 0) {
         body.innerHTML = `
@@ -24,6 +26,14 @@
                     </div>
                 `;
         const imgElem = body.querySelector("#id-img");
+        closeBtn.addEventListener("click", () => {
+          frmElem.reset();
+        });
+
+        const newFeedModal = body.querySelector("#newFeedModal");
+        newFeedModal.addEventListener("click", () => {
+          frmElem.reset();
+        });
 
         const imgSource = e.target.files[0];
         const reader = new FileReader();
@@ -38,23 +48,22 @@
 
           const fData = new FormData();
           for (let i = 0; i < files.length; i++) {
-            fData.append("imgs", files[i]);
+            fData.append("imgs[]", files[i]);
           }
           fData.append("ctnt", body.querySelector("textarea").value);
           fData.append("location", body.querySelector("input[type=text]").value);
 
-          fetch("/feed/reg", {
+          fetch("/PHPgram/feed/rest", {
             method: "post",
             body: fData,
           })
             .then((res) => res.json())
             .then((myJson) => {
-              const closeBtn = modal.querySelector(".btn-close");
+              console.log(myJson);
               closeBtn.click();
-
-              if (feedObj && myJson.result) {
-                feedObj.refreshList();
-              }
+              // if (feedObj && myJson.result) {
+              //   feedObj.refreshList();
+              // }
             });
         });
       }

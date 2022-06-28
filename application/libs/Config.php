@@ -30,3 +30,4 @@ define("_PUT", "PUT");
 define("_DELETE", "DELETE");
 
 define("_DIR", "/PHPgram");
+define("_IMG_PATH", "static/img");
