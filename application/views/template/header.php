@@ -37,7 +37,7 @@
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navDropdownMenuLink">
                                         <li>
-                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="profileModal">
+                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#profileModal">
                                                 <span><svg aria-label="프로필" class="_8-yf5 " color="#262626" fill="#262626" height="16" role="img" viewBox="0 0 24 24" width="16">
                                                         <circle cx="12.004" cy="12.004" fill="none" r="10.5" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"></circle>
                                                         <path d="M18.793 20.014a6.08 6.08 0 00-1.778-2.447 3.991 3.991 0 00-2.386-.791H9.38a3.994 3.994 0 00-2.386.791 6.09 6.09 0 00-1.779 2.447" fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"></path>
@@ -76,18 +76,44 @@
     </div>
 </div>
 
-<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="newFeedModalLabel" aria-hidden="true">
+<!-- profile modal 만들어보기 -->
+<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content" id="newFeedModalContent">
             <div class="modal-header">
-                <h5 class="modal-title" id="newFeedModalLabel">새 게시물 만들기</h5>
+                <h5 class="modal-title" id="newFeedModalLabel">프로필</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" id="id-modal-body"></div>
-        </div>
+            <div class="modal-body d-flex flex-column align-items-center" id="id-modal-body">
+                <div class="profile_img circleimg h100 w100 pointer ">
+                    <!-- pointer?? circleimg적용전 img크기가 div크기를 초과하던데? -->
+                    <img src="<?= _DIR ?>/static/img/profile/<?= getMainImgSrc() ?>" alt="프로필이미지">
+                </div>
+                <form>
+                    <!-- 폼태그 너비조절 부트스트랩으로 어떻게? -->
+                    <input type="file" accept="image/*" name="profileImg" class="d-none">
+                    <!-- js로 열리게하기 -->
+                    <div class="mb-3">
+                        <label for="userNm" class="col-form-label">이름</label>
+                        <input type="text" class="form-control" id="userNm" value="<?= getLoginUser()->nm ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="userEmail" class="col-form-label">Email</label>
+                        <input type="text" class="form-control" id="userEmail" value=<?= getLoginUser()->email ?>>
+                    </div>
+                    <div class="mb-3">
+                        <label for="userCmt" class="col-form-label">소개</label>
+                        <textarea name="userCmt" class="form-control" id="userCmt"><?= getLoginUser()->cmt ?></textarea>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-secondary">Close</button>
+                        <button type="button" class="btn btn-primary">Save</button>
 
-        <form class="d-none">
-            <input type="file" accept="image/*" name="imgs" multiple>
+                    </div>
+                </form>
+
+            </div>
+        </div>
         </form>
     </div>
 </div>
