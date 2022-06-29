@@ -5,8 +5,8 @@ define('_DBTYPE', 'mysql'); //mysql, mariadb 등
 define('_DBHOST', 'localhost'); //DB접속 주소
 define('_DBNAME', 'phpgram'); //DB명
 define('_DBUSER', 'root'); //아이디
-define('_DBPASSWORD', '506greendg@');
-// define('_DBPASSWORD', '0915');
+// define('_DBPASSWORD', '506greendg@');
+define('_DBPASSWORD', '0915');
 
 define('_CHARSET', 'utf8');
 define("_VIEW", "application/views/");

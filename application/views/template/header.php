@@ -37,7 +37,7 @@
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navDropdownMenuLink">
                                         <li>
-                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="profileModal">
+                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#profileModal">
                                                 <span><svg aria-label="프로필" class="_8-yf5 " color="#262626" fill="#262626" height="16" role="img" viewBox="0 0 24 24" width="16">
                                                         <circle cx="12.004" cy="12.004" fill="none" r="10.5" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"></circle>
                                                         <path d="M18.793 20.014a6.08 6.08 0 00-1.778-2.447 3.991 3.991 0 00-2.386-.791H9.38a3.994 3.994 0 00-2.386.791 6.09 6.09 0 00-1.779 2.447" fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"></path>
@@ -76,11 +76,12 @@
     </div>
 </div>
 
-<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="newFeedModalLabel" aria-hidden="true">
+<!-- profile modal 만들어보기 -->
+<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content" id="newFeedModalContent">
             <div class="modal-header">
-                <h5 class="modal-title" id="newFeedModalLabel">새 게시물 만들기</h5>
+                <h5 class="modal-title" id="newFeedModalLabel">프로필</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="id-modal-body"></div>
@@ -90,4 +91,4 @@
             <input type="file" accept="image/*" name="imgs" multiple>
         </form>
     </div>
-</div>
+</div> -->
