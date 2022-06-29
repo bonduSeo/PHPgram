@@ -71,4 +71,16 @@ class FeedModel extends Model
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
+    public function selFeedImgList($paramObj)
+    {
+        $sql =
+            "   SELECT img FROM t_feed_img 
+                WHERE ifeed = :ifeed
+            ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":ifeed", $paramObj->ifeed);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
 }
