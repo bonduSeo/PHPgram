@@ -83,4 +83,72 @@
       body.appendChild(selFromComBtn);
     });
   }
+
+  const feedObj = {
+    limit: 20,
+    itemLength: 0,
+    currentPage: 1,
+    loadingElem: document.querySelector(".loading"),
+    containerElem: document.querySelector("#item_container"),
+
+    getFeedList: function () {
+      this.showLoading();
+      const param = {
+        page: this.currentPage++,
+      };
+      fetch("/PHPgram/feed/rest" + encodeQueryString(param))
+        .then((res) => res.json())
+        .then((list) => {
+          // console.log(list);
+          // this.hideLoading();
+          this.makeFeedList(list);
+        })
+        .catch((e) => {
+          console.error(e);
+          this.hideLoading();
+        });
+    },
+    makeFeedList: function (list) {
+      if (list.length !== 0) {
+        list.forEach((item) => {
+          const divItem = this.makeFeedItem(item);
+          this.containerElem.appendChild(divItem);
+        });
+      }
+      this.hideLoading();
+    },
+
+    makeFeedItem: function (item) {
+      console.log(item);
+      const divContainer = document.createElement("div");
+      divContainer.className = "item mt-3 mb-3";
+
+      const regDtInfo = getDateTimeInfo(item.regdt);
+      const divTop = document.createElement("div");
+      divContainer.appendChild(divTop);
+
+      divTop.className = "d-flex flex-row ps-3 pe-3";
+      const writerImg = `<img src='/PHPgram/static/img/profile/${item.iuser}/${item.mainimg}' 
+        onerror='this.error=null;this.src="/PHPgram/static/img/profile/defaultProfileImg_100.png"'>`;
+
+      divTop.innerHTML = `
+          <div class="d-flex flex-column justify-content-center">
+            <div class="circleimg h40 w40">${writerImg}</div>
+            </div>
+          <div class="p-3 flex-grow-1">
+            <div><span class="pointer" onclick="moveToProfile(${item.iuser});">${item.writer}</span> - ${regDtInfo}</div>
+            <div>${item.location === null ? "" : item.location}</div>
+        `;
+
+      return divContainer;
+    },
+
+    showLoading: function () {
+      this.loadingElem.classList.remove("d-none");
+    },
+    hideLoading: function () {
+      this.loadingElem.classList.add("d-none");
+    },
+  };
+  feedObj.getFeedList();
 })();

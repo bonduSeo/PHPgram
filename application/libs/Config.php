@@ -31,3 +31,4 @@ define("_DELETE", "DELETE");
 
 define("_DIR", "/PHPgram");
 define("_IMG_PATH", "static/img");
+define("_FEED_ITEM_CNT", 20);

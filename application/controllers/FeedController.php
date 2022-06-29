@@ -8,6 +8,7 @@ class FeedController extends Controller
     {
         $this->addAttribute(_MAIN, $this->getView("feed/index.php"));
         $this->addAttribute(_JS, ["feed/index"]);
+        $this->addAttribute(_CSS, ["feed/index"]); 
         return "template/t1.php";
     }
 
@@ -61,6 +62,17 @@ class FeedController extends Controller
                 return ["result" => 1];
                 // return ["test" => $ifeed];
                 // return ["result" => $ifeed];
+            case _GET:
+                $page = 1;
+                if (isset($_GET["page"])) {
+                    $page = intval($_GET["page"]);
+                }
+                $startIdx = ($page - 1) * _FEED_ITEM_CNT;
+                $param = [
+                    "startIdx" => $startIdx,
+                    "iuser" => getIuser()
+                ];
+                return $this->model->selFeedList($param);
         }
     }
 }
