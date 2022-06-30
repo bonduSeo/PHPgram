@@ -48,6 +48,14 @@ class UserController extends Controller
     public function logout()
     {
         $this->flash(_LOGINUSER);
-        return "redirect:/user/signin";
+        return "redirect:" . _DIR . "/user/signin";
+    }
+
+    public function feedwin()
+    {
+        $this->addAttribute(_JS, ["https://unpkg.com/swiper@8/swiper-bundle.min.js", "feed/index"]);
+        $this->addAttribute(_CSS, ["feed/index", "https://unpkg.com/swiper@8/swiper-bundle.min.css"]);
+        $this->addAttribute(_MAIN, $this->getView("user/feedwin.php"));
+        return "template/t1.php";
     }
 }

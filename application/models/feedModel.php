@@ -83,4 +83,32 @@ class FeedModel extends Model
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
+    public function insFeedFav(&$param)
+    {
+        $sql =
+            "   INSERT INTO t_feed_fav
+                (ifeed, iuser)
+                VALUES
+                (:ifeed, :iuser)
+            ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":ifeed", $param['ifeed']);
+        $stmt->bindValue(":iuser", $param['iuser']);
+        $stmt->execute();
+        return $stmt->rowCount();
+    }
+
+    public function delFeedFav(&$param)
+    {
+        $sql =
+            "   DELETE FROM t_feed_fav
+                WHERE iuser = :iuser AND ifeed = :ifeed
+            ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":iuser", $param['iuser']);
+        $stmt->bindValue(":ifeed", $param['ifeed']);
+        $stmt->execute();
+        return $stmt->rowCount();
+    }
 }

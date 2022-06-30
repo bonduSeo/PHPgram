@@ -1,17 +1,17 @@
 <div class="header">
     <header class="container py-3">
         <div id="globalConst">
-            <div class="d-flex flex-column flex-md-row align-items-center">
+            <div class="d-flex flex-row align-items-center">
                 <div class="d-inline-flex flex-grow-1 flex-shrink-0">
                     <a href="<?= _DIR ?>/feed/index"><img src="<?= _DIR ?>/static/svg/logo.svg"></a>
                 </div>
-                <div class="d-inline-flex flex-grow-1 flex-shrink-0">
+                <div class="d-inline-flex flex-grow-1 flex-shrink-1">
                 </div>
                 <div class="d-inline-flex flex-grow-1 flex-shrink-0">
                     <nav class="d-flex flex-grow-1 flex-column flex-md-row justify-content-end">
 
                         <div class="d-inline-flex flex-grow-1 flex-shrink-0">
-                            <nav class="d-flex flex-grow-1 flex-column flex-md-row justify-content-end">
+                            <nav class="d-flex flex-grow-1 flex-row justify-content-end">
                                 <div class="d-inline-flex me-3">
                                     <a href="#" id="btnNewFeedModal" data-bs-toggle="modal" data-bs-target="#newFeedModal">
                                         <svg aria-label="새로운 게시물" class="_8-yf5 " color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24">
@@ -84,7 +84,7 @@
                 <h5 class="modal-title" id="newFeedModalLabel">프로필</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body d-flex flex-column align-items-center" id="id-modal-body">
+            <div class="modal-body d-flex flex-column " id="id-modal-body">
                 <div class="profile_img circleimg h100 w100 pointer ">
                     <!-- pointer?? circleimg적용전 img크기가 div크기를 초과하던데? -->
                     <img src="<?= _DIR ?>/static/img/profile/<?= getMainImgSrc() ?>" alt="프로필이미지">
