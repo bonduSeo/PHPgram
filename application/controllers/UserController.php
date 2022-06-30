@@ -48,13 +48,16 @@ class UserController extends Controller
     public function logout()
     {
         $this->flash(_LOGINUSER);
-        return "redirect:" . _DIR . "/user/signin";
+        return "redirect:/user/signin";
     }
 
     public function feedwin()
     {
-        $this->addAttribute(_JS, ["https://unpkg.com/swiper@8/swiper-bundle.min.js", "feed/index"]);
-        $this->addAttribute(_CSS, ["feed/index", "https://unpkg.com/swiper@8/swiper-bundle.min.css"]);
+        $iuser = isset($_GET["iuser"]) ? intval($_GET["iuser"]) : 0;
+        $param = ["iuser" => $iuser];
+        $this->addAttribute(_DATA, $this->model->selUserByIuser($param));
+        $this->addAttribute(_JS, ["user/feedwin", "https://unpkg.com/swiper@8/swiper-bundle.min.js"]);
+        $this->addAttribute(_CSS, ["user/feedwin", "https://unpkg.com/swiper@8/swiper-bundle.min.css"]);
         $this->addAttribute(_MAIN, $this->getView("user/feedwin.php"));
         return "template/t1.php";
     }

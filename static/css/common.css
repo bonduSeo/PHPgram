@@ -83,6 +83,9 @@ table {
 .h100 {
   height: 100px;
 }
+.h150 {
+  height: 150px;
+}
 .h300 {
   height: 300px;
 }
@@ -135,6 +138,10 @@ table {
   overflow-y: auto;
 }
 
+.size_box_100 {
+  position: relative;
+  height: 100px;
+}
 .w24 {
   width: 24px;
 }
@@ -146,6 +153,9 @@ table {
 }
 .w100 {
   width: 100px;
+}
+.w150 {
+  width: 150px;
 }
 .w250 {
   width: 250px;

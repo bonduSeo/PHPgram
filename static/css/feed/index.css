@@ -8,10 +8,7 @@ main {
   width: 100%;
   max-width: 614px;
 }
-.size_box_100 {
-  position: relative;
-  height: 100px;
-}
+
 #item_container > .item {
   border: 1px solid #dfdfdf;
   border-radius: 8px;
