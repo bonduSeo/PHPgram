@@ -8,7 +8,28 @@
                 </div>
             </div>
 
-            <div></div>
+            <?php
+            $ismyfeed = $this->data->iuser == getIuser() ? true : false;
+            $youme = $this->data->youme;
+            $meyou = $this->data->meyou;
+            ?>
+
+            <div class="flex-grow-1 d-flex flex-column justify-content-evenly">
+                <div><?= $this->data->email ?>
+                    <button type="button" id="btnModProfile" class="btn btn-outline-secondary <?= $ismyfeed ? "" : "d-none" ?> ">프로필 수정</button>
+                    <button type="button" id="btnFollow" data-follow="0" class="btn btn-primary <?= !$ismyfeed && $youme && !$meyou ? "" : "d-none" ?> ">맞팔로우 하기</button>
+                    <button type="button" id="btnFollow" data-follow="0" class="btn btn-primary <?= !$ismyfeed && !$youme && !$meyou ? "" : "d-none" ?> ">팔로우</button>
+                    <button type="button" id="btnFollow" data-follow="1" class="btn btn-outline-secondary <?= !$ismyfeed && $meyou ? "" : "d-none" ?> ">팔로우 취소</button>
+                </div>
+                <div class="d-flex flex-row">
+                    <div class="flex-grow-1">게시물<span><?= $this->data->feedcnt ?></span></div>
+                    <div class="flex-grow-1">팔로워<span><?= $this->data->follower ?></span></div>
+                    <div class="flex-grow-1">팔로우<span><?= $this->data->follow ?></span></div>
+                </div>
+                <div class="bold"><?= $this->data->nm ?></div>
+                <div><?= $this->data->cmt ?></div>
+            </div>
+
         </div>
     </div>
 </div>
