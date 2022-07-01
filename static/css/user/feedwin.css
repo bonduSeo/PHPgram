@@ -1,0 +1,30 @@
+.profileUpload {
+  color: #0096f6;
+}
+.profileDelete {
+  color: #ed4956;
+}
+
+.modal-body > div {
+  width: 100%;
+  padding: 12px 0 12px 0;
+  border-bottom: 1px solid rgba(185, 185, 185, 0.349);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9rem;
+}
+.modal-body :last-child {
+  border-bottom: none;
+}
+
+.modal-title {
+  height: 80px;
+  font-size: 1.1rem !important;
+}
+.modal-content {
+  border-radius: 15px;
+}
+.modal-400 {
+  width: 400px;
+}
