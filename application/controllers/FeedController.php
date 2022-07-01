@@ -10,7 +10,6 @@ class FeedController extends Controller
         $this->addAttribute(_JS, ["https://unpkg.com/swiper@8/swiper-bundle.min.js", "feed/index"]);
         $this->addAttribute(_CSS, ["feed/index", "https://unpkg.com/swiper@8/swiper-bundle.min.css"]);
 
-
         return "template/t1.php";
     }
 
