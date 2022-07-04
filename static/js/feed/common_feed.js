@@ -5,6 +5,21 @@ const feedObj = {
   swiper: null,
   loadingElem: document.querySelector(".loading"),
   containerElem: document.querySelector("#item_container"),
+  makeCmtItem: function (item) {
+    const divCmtItemContainer = document.createElement("div");
+    divCmtItemContainer.className = "d-flex flex-row align-items-center mb-2";
+    const src = "/PHPgram/static/img/profile/" + (item.writerimg ? `${item.iuser}/${item.writerimg}` : "defaultProfileImg_100.png");
+    divCmtItemContainer.innerHTML = `
+        <div class="circleimg h24 w24 me-1">
+            <img src="${src}" class="profile w24 pointer">                
+        </div>
+        <div class="d-flex flex-row">
+            <div class="pointer me-2">${item.writer} - ${getDateTimeInfo(item.regdt)}</div>
+            <div>${item.cmt}</div>
+        </div>
+    `;
+    return divCmtItemContainer;
+  },
 
   makeFeedList: function (list) {
     if (list.length !== 0) {
@@ -146,9 +161,28 @@ const feedObj = {
 
     const divCmtList = document.createElement("div");
     divContainer.appendChild(divCmtList);
-
+    divCmtList.className = "ms-3";
     const divCmt = document.createElement("div");
     divContainer.appendChild(divCmt);
+
+    //7월4일 보강추가내용
+    if (item.cmt) {
+      const divCmtItem = this.makeCmtItem(item.cmt);
+      divCmtList.appendChild(divCmtItem);
+
+      if (item.cmt.ismore === 1) {
+        const divMoreCmt = document.createElement("div");
+        divCmt.appendChild(divMoreCmt);
+        divMoreCmt.className = "ms-3";
+
+        const spanMoreCmt = document.createElement("span");
+        divMoreCmt.appendChild(spanMoreCmt);
+        spanMoreCmt.className = "pointer";
+        spanMoreCmt.innerText = "댓글 더보기..";
+        spanMoreCmt.addEventListener("click", (e) => {});
+      }
+    }
+    //
     const divCmtForm = document.createElement("div");
     divCmtForm.className = "d-flex flex-row";
     divCmt.appendChild(divCmtForm);
@@ -157,6 +191,26 @@ const feedObj = {
         <input type="text" class="flex-grow-1 my_input back_color" placeholder="댓글을 입력하세요..">
         <button type="button" class="btn btn-outline-primary">등록</button>
       `;
+    const inputCmt = divCmtForm.querySelector("input");
+    const btnCmtReg = divCmtForm.querySelector("button");
+    btnCmtReg.addEventListener("click", (e) => {
+      console.log(inputCmt.value);
+      const param = {
+        ifeed: item.ifeed,
+        cmt: inputCmt.value,
+      };
+      fetch("/PHPgram/feedCmt/index", {
+        method: "POST",
+        body: JSON.stringify(param),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          console.log("res.result : " + res.result);
+          if (res.result) {
+            inputCmt.value = "";
+          }
+        });
+    });
 
     return divContainer;
   },
@@ -237,7 +291,9 @@ function moveToFeedWin(iuser) {
             .then((res) => res.json())
             .then((myJson) => {
               console.log(myJson);
-              closeBtn.click();
+              if (myJson.result) {
+                btnClose.click();
+              }
               // if (feedObj && myJson.result) {
               //   feedObj.refreshList();
               // }

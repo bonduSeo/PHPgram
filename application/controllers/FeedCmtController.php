@@ -11,7 +11,6 @@ class FeedCmtController extends Controller
                 $json = getJson();
                 $json["iuser"] = getIuser();
 
-
                 return [_RESULT =>  $this->model->insFeedCmt($json)];
         }
     }
