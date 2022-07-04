@@ -2,6 +2,7 @@
 
 namespace application\controllers;
 
+use application\libs\Application;
 
 class UserController extends Controller
 {
@@ -59,9 +60,50 @@ class UserController extends Controller
             "loginiuser" => getIuser()
         ];
         $this->addAttribute(_DATA, $this->model->selUserProfile($param));
+
         $this->addAttribute(_JS, ["user/feedwin", "https://unpkg.com/swiper@8/swiper-bundle.min.js"]);
-        $this->addAttribute(_CSS, ["user/feedwin", "https://unpkg.com/swiper@8/swiper-bundle.min.css"]);
+        $this->addAttribute(_CSS, ["user/feedwin", "https://unpkg.com/swiper@8/swiper-bundle.min.css", "feed/index"]);
         $this->addAttribute(_MAIN, $this->getView("user/feedwin.php"));
         return "template/t1.php";
+    }
+
+    public function feed()
+    {
+        if (getMethod() === _GET) {
+            $page = 1;
+            if (isset($_GET["page"])) {
+                $page = intval($_GET["page"]);
+            }
+            $startIdx = ($page - 1) * _FEED_ITEM_CNT;
+            $param = [
+                "startIdx" => $startIdx,
+                "iuser" => $_GET['iuser']
+            ];
+            $list = $this->model->selFeedList($param);
+            foreach ($list as $item) {
+                $item->imgList = Application::getModel("feed")->selFeedImgList($item);
+            }
+            return $list;
+        }
+    }
+
+
+    public function follow()
+    {
+        $param = [
+            "fromiuser" => getIuser(),
+            // "toiuser" =>  $_REQUEST["toiuser"]
+        ];
+        // REQUEST: get or post 상관없이
+        switch (getMethod()) {
+            case _POST:
+                $json = getJson();
+                $param["toiuser"] = $json['toiuser'];
+                $result = $this->model->insUserFollow($param);
+                return [_RESULT => $result];
+            case _DELETE:;
+                $param["toiuser"] = $_GET['toiuser'];
+                return [_RESULT =>  $this->model->delFollow($param)];
+        }
     }
 }

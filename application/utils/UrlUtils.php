@@ -1,4 +1,9 @@
 <?php
+function getJson()
+{
+    return json_decode(file_get_contents('php://input'), true);
+    //php 에서는 json형태의값을 받아쓸려면 이렇게해야함(?)
+}
 
 function getParam($key)
 {

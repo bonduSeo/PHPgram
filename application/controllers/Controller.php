@@ -4,6 +4,7 @@ namespace application\controllers;
 
 class Controller
 {
+    protected $ctx;
     protected $model;
     private static $needLoginUrlArr = [
         "feed",
@@ -39,6 +40,10 @@ class Controller
         }
     }
     private function chkLoginUrl()
+    {
+    }
+
+    protected function getModel($key)
     {
     }
 

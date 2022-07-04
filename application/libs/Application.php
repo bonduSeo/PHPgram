@@ -27,11 +27,19 @@ class Application
         if (!in_array($controller, static::$modelList)) {
             $modelName = 'application\models\\' . $controller . 'model';
             static::$modelList[$controller] = new $modelName();
-            //질문: 이 어레이가 사용되는때는?
         }
 
         $controllerName = 'application\controllers\\' . $controller . 'controller';
-        $model = static::$modelList[$controller];
+        $model = $this->getModel($controller);
         new $controllerName($action, $model);
+    }
+
+    public static function getModel($key)
+    {
+        if (!in_array($key, static::$modelList)) {
+            $modelName = 'application\models\\' . $key . 'model';
+            static::$modelList[$key] = new $modelName();
+        }
+        return static::$modelList[$key];
     }
 }
