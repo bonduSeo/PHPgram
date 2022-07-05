@@ -77,7 +77,9 @@ class UserController extends Controller
             $startIdx = ($page - 1) * _FEED_ITEM_CNT;
             $param = [
                 "startIdx" => $startIdx,
-                "iuser" => $_GET['iuser']
+                "toiuser" => $_GET["iuser"],
+                "loginiuser" => getIuser()
+                //남의 feedWin에서 feed 좋아요 정보가 잘못된 부분 수정
             ];
             $list = $this->model->selFeedList($param);
             foreach ($list as $item) {

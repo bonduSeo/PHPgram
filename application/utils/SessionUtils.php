@@ -6,7 +6,9 @@ function getLoginUser()
 
 function getIuser()
 {
-    return getLoginUser()->iuser;
+    if (isset($_SESSION[_LOGINUSER])) {
+        return getLoginUser()->iuser;
+    }
 }
 
 function getMainImgSrc()

@@ -23,18 +23,18 @@ function getFeedList() {
 getFeedList();
 
 (function () {
-  const gData = document.querySelector("#globalData");
+  const lData = document.querySelector("#lData");
   const btnFollow = document.querySelectorAll(".btnFollow");
   console.log(btnFollow[0].dataset);
 
   btnFollow.forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const param = {
-        toiuser: parseInt(gData.dataset.toiuser),
+        toiuser: parseInt(lData.dataset.toiuser),
       };
       const follow = e.target.dataset.follow;
       const followUrl = "/PHPgram/user/follow";
-
+      const followerCnt = document.querySelector("#followerCnt>span");
       switch (follow) {
         case "1":
           //팔로우취소
@@ -43,13 +43,14 @@ getFeedList();
             .then((res) => res.json())
             .then((res) => {
               if (res.result) {
-                // btn.dataset.follow = "0";
                 btn.classList.add("d-none");
                 if (btn.dataset.youme === "1") {
                   document.querySelector("#btnFollowToo").classList.remove("d-none");
                 } else {
                   document.querySelector("#btnFollow").classList.remove("d-none");
                 }
+
+                followerCnt.innerHTML = parseInt(followerCnt.innerHTML) - 1;
               }
             });
           break;
@@ -68,6 +69,7 @@ getFeedList();
               if (res.result) {
                 btn.classList.add("d-none");
                 document.querySelector("#btnCancel").classList.remove("d-none");
+                followerCnt.innerHTML = parseInt(followerCnt.innerHTML) + 1;
               }
             });
           break;

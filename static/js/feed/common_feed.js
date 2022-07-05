@@ -331,6 +331,13 @@ function moveToFeedWin(iuser) {
                 btnClose.click();
 
                 //화면에 등록
+                const lData = document.querySelector("#lData");
+                const gData = document.querySelector("#gData");
+                if (lData && lData.dataset.toiuser !== gData.dataset.loginiuser) {
+                  return;
+                }
+                // 남의 feedWin이 아니라면 화면에 등록!!!
+
                 const feedItem = feedObj.makeFeedItem(myJson);
                 feedObj.containerElem.prepend(feedItem);
                 feedObj.refreshSwipe();
