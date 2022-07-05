@@ -81,7 +81,8 @@ class UserController extends Controller
             ];
             $list = $this->model->selFeedList($param);
             foreach ($list as $item) {
-                $item->imgList = Application::getModel("feed")->selFeedImgList($item);
+                $param2 = ["ifeed" => $item->ifeed];
+                $item->imgList = Application::getModel("feed")->selFeedImgList($param2);
             }
             return $list;
         }

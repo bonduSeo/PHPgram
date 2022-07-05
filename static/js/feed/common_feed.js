@@ -3,6 +3,21 @@ const feedObj = {
   itemLength: 0,
   currentPage: 1,
   swiper: null,
+  refreshSwipe: function () {
+    if (this.swiper !== null) {
+      this.swiper = null;
+    }
+    this.swiper = new Swiper(".swiper", {
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      pagination: { el: ".swiper-pagination" },
+      allowTouchMove: false,
+      direction: "horizontal",
+      loop: false,
+    });
+  },
   loadingElem: document.querySelector(".loading"),
   containerElem: document.querySelector("#item_container"),
   getFeedCmtList: function (ifeed, divCmtList, spanMoreCmt) {
@@ -30,10 +45,19 @@ const feedObj = {
             <img src="${src}" class="profile w24 pointer">                
         </div>
         <div class="d-flex flex-row">
-            <div class="pointer me-2">${item.writer} - ${getDateTimeInfo(item.regdt)}</div>
+            <div class="pointer me-2"><span id="writer">${item.writer}</span> - ${getDateTimeInfo(item.regdt)}</div>
             <div>${item.cmt}</div>
         </div>
     `;
+    const imgToLink = divCmtItemContainer.querySelector("div>img");
+    const writerToLink = divCmtItemContainer.querySelector("#writer");
+    imgToLink.addEventListener("click", (e) => {
+      // console.log(e.target);
+      moveToFeedWin(item.iuser);
+    });
+    writerToLink.addEventListener("click", (e) => {
+      moveToFeedWin(item.iuser);
+    });
     return divCmtItemContainer;
   },
 
@@ -44,20 +68,8 @@ const feedObj = {
         this.containerElem.appendChild(divItem);
       });
     }
-    if (this.swiper !== null) {
-      this.swiper = null;
-    }
 
-    this.swiper = new Swiper(".swiper", {
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-      pagination: { el: ".swiper-pagination" },
-      allowTouchMove: false,
-      direction: "horizontal",
-      loop: false,
-    });
+    this.refreshSwipe();
     this.hideLoading();
   },
 
@@ -181,6 +193,7 @@ const feedObj = {
     const divCmt = document.createElement("div");
     divContainer.appendChild(divCmt);
 
+    const spanMoreCmt = document.createElement("span");
     //7월4일 보강추가내용(댓글)
     if (item.cmt) {
       const divCmtItem = this.makeCmtItem(item.cmt);
@@ -191,7 +204,6 @@ const feedObj = {
         divCmt.appendChild(divMoreCmt);
         divMoreCmt.className = "ms-3";
 
-        const spanMoreCmt = document.createElement("span");
         divMoreCmt.appendChild(spanMoreCmt);
         spanMoreCmt.className = "pointer rem0_9 c_lightgray";
         spanMoreCmt.innerText = "댓글 더보기..";
@@ -210,9 +222,16 @@ const feedObj = {
         <button type="button" class="btn btn-outline-primary">등록</button>
       `;
     const inputCmt = divCmtForm.querySelector("input");
+    inputCmt.addEventListener("keyup", (e) => {
+      if (e.key === "Enter") {
+        btnCmtReg.click();
+      }
+    });
+
     const btnCmtReg = divCmtForm.querySelector("button");
     btnCmtReg.addEventListener("click", (e) => {
       console.log(inputCmt.value);
+
       const param = {
         ifeed: item.ifeed,
         cmt: inputCmt.value,
@@ -226,6 +245,7 @@ const feedObj = {
           console.log("res.result : " + res.result);
           if (res.result) {
             inputCmt.value = "";
+            this.getFeedCmtList(item.ifeed, divCmtList, spanMoreCmt);
           }
         });
     });
@@ -252,36 +272,35 @@ function moveToFeedWin(iuser) {
     const body = modal.querySelector("#id-modal-body");
     const frmElem = modal.querySelector("form");
     const btnClose = modal.querySelector(".btn-close");
-
     //이미지 값이 변하면
     frmElem.imgs.addEventListener("change", function (e) {
-      console.log(e.target.files);
+      console.log(`length: ${e.target.files.length}`);
       //form 태그는 . 으로 -아이디나 이름으로도 (자식한테)접근할수있음
       if (e.target.files.length > 0) {
         body.innerHTML = `
-                      <div>
-                          <div class="d-flex flex-md-row">
-                              <div class="flex-grow-1 h-full"><img id="id-img" class="w300"></div>
-                              <div class="ms-1 w250 d-flex flex-column">                
-                                  <textarea placeholder="문구 입력..." class="flex-grow-1 p-1"></textarea>
-                                  <input type="text" placeholder="위치" class="mt-1 p-1">
-                              </div>
+                  <div>
+                      <div class="d-flex flex-md-row">
+                          <div class="flex-grow-1 h-full"><img id="id-img" class="w300"></div>
+                          <div class="ms-1 w250 d-flex flex-column">                
+                              <textarea placeholder="문구 입력..." class="flex-grow-1 p-1"></textarea>
+                              <input type="text" placeholder="위치" class="mt-1 p-1">
                           </div>
                       </div>
-                      <div class="mt-2">
-                          <button type="button" class="btn btn-primary">공유하기</button>
-                      </div>
-                  `;
-
-        closeBtn.addEventListener("click", () => {
+                  </div>
+                  <div class="mt-2">
+                      <button type="button" class="btn btn-primary">공유하기</button>
+                  </div>
+              `;
+        btnClose.addEventListener("click", () => {
           frmElem.reset();
         });
 
-        modal.addEventListener("click", () => {
-          frmElem.reset();
-        });
-
+        // modal.addEventListener("click", (event) => {
+        //   event.stopPropagation();
+        //   frmElem.reset();
+        // });
         const imgElem = body.querySelector("#id-img");
+
         const imgSource = e.target.files[0];
         const reader = new FileReader();
         reader.readAsDataURL(imgSource);
@@ -294,11 +313,9 @@ function moveToFeedWin(iuser) {
           const files = frmElem.imgs.files;
 
           const fData = new FormData();
-
           for (let i = 0; i < files.length; i++) {
             fData.append("imgs[]", files[i]);
           }
-
           fData.append("ctnt", body.querySelector("textarea").value);
           fData.append("location", body.querySelector("input[type=text]").value);
 
@@ -309,12 +326,15 @@ function moveToFeedWin(iuser) {
             .then((res) => res.json())
             .then((myJson) => {
               console.log(myJson);
-              if (myJson.result) {
+
+              if (myJson) {
                 btnClose.click();
+
+                //화면에 등록
+                const feedItem = feedObj.makeFeedItem(myJson);
+                feedObj.containerElem.prepend(feedItem);
+                feedObj.refreshSwipe();
               }
-              // if (feedObj && myJson.result) {
-              //   feedObj.refreshList();
-              // }
             });
         });
       }
