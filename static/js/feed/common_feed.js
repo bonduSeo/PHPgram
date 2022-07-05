@@ -5,6 +5,22 @@ const feedObj = {
   swiper: null,
   loadingElem: document.querySelector(".loading"),
   containerElem: document.querySelector("#item_container"),
+  getFeedCmtList: function (ifeed, divCmtList, spanMoreCmt) {
+    fetch(`/PHPgram/feedcmt/index?ifeed=${ifeed}`)
+      .then((res) => res.json())
+      .then((res) => {
+        if (res && res.length > 0) {
+          if (spanMoreCmt) {
+            spanMoreCmt.remove();
+          }
+          divCmtList.innerHTML = null;
+          res.forEach((item) => {
+            const divCmtItem = this.makeCmtItem(item);
+            divCmtList.appendChild(divCmtItem);
+          });
+        }
+      });
+  },
   makeCmtItem: function (item) {
     const divCmtItemContainer = document.createElement("div");
     divCmtItemContainer.className = "d-flex flex-row align-items-center mb-2";
@@ -165,7 +181,7 @@ const feedObj = {
     const divCmt = document.createElement("div");
     divContainer.appendChild(divCmt);
 
-    //7월4일 보강추가내용
+    //7월4일 보강추가내용(댓글)
     if (item.cmt) {
       const divCmtItem = this.makeCmtItem(item.cmt);
       divCmtList.appendChild(divCmtItem);
@@ -177,9 +193,11 @@ const feedObj = {
 
         const spanMoreCmt = document.createElement("span");
         divMoreCmt.appendChild(spanMoreCmt);
-        spanMoreCmt.className = "pointer";
+        spanMoreCmt.className = "pointer rem0_9 c_lightgray";
         spanMoreCmt.innerText = "댓글 더보기..";
-        spanMoreCmt.addEventListener("click", (e) => {});
+        spanMoreCmt.addEventListener("click", (e) => {
+          this.getFeedCmtList(item.ifeed, divCmtList, spanMoreCmt);
+        });
       }
     }
     //
@@ -233,7 +251,7 @@ function moveToFeedWin(iuser) {
     const modal = document.querySelector("#newFeedModal");
     const body = modal.querySelector("#id-modal-body");
     const frmElem = modal.querySelector("form");
-    const closeBtn = modal.querySelector(".btn-close");
+    const btnClose = modal.querySelector(".btn-close");
 
     //이미지 값이 변하면
     frmElem.imgs.addEventListener("change", function (e) {
