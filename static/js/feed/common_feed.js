@@ -166,8 +166,10 @@ const feedObj = {
     const divDm = document.createElement("div");
     divBtns.appendChild(divDm);
     divDm.className = "pointer";
-    divDm.innerHTML = `<svg aria-label="게시물 공유" class="_8-yf5 " color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="22" x2="9.218" y1="3" y2="10.083"></line><polygon fill="none" points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></polygon></svg>`;
-
+    divDm.innerHTML = `<svg aria-label="다이렉트 메시지" class="_8-yf5 " color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="22" x2="9.218" y1="3" y2="10.083"></line><polygon fill="none" points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></polygon></svg>`;
+    divDm.addEventListener("click", (e) => {
+      location.href = `/PHPgram/dm/index?oppoiuser=${item.iuser}`;
+    });
     const divFav = document.createElement("div");
     divContainer.appendChild(divFav);
     divFav.className = "p-3 d-none";
